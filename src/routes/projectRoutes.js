@@ -1,31 +1,63 @@
 const routes = (app) => {
 
-  // Get all projects
+  /*** Get all projects ***/
   app.route('/')
-  .get((req, res) =>
-    res.send('GET all projects successful.')
-  )
+  .get((req, res, next) => {
+    // Middleware
+    console.log(`Request from: ${req.originalUrl}`)
+    console.log(`Request type: ${req.method}`)
 
-  // Save a project
-  .post((req, res) =>
-    res.send('POST of project successful.')
-  );
+    // next() - passing along to the next function below
+    // the res.send code will not execute without this next() call 
+    next();
+  }, (req, res, next) => {
+    res.send('GET all projects successful.');
+  })
 
-  // Get single project by ID
+  /*** Save a project ***/
+  .post((req, res, next) => {
+    // Middleware
+    console.log(`Request from: ${req.originalUrl}`)
+    console.log(`Request type: ${req.method}`)
+
+    next();
+  }, (req, res, next) => {
+    res.send('POST of project successful.');
+  })
+
+  /*** Get single project by ID ***/
   app.route('/:id')
-  .get((req, res) =>
-    res.send('GET project by id successful.')
-  )
+  .get((req, res, next) => {
+    // Middleware
+    console.log(`Request from: ${req.originalUrl}`)
+    console.log(`Request type: ${req.method}`)
 
-  // Update project by project ID
-  .put((req, res) =>
-    res.send('PUT project updates successful.')
-  )
+    next();
+  }, (req, res, next) => {
+    res.send('GET project by id successful.');
+  })
 
-  // Delete project by project ID
-  .delete((req, res) =>
-    res.send('DELETE project successful.')
-  );
-}
+  /*** Update project by project ID ***/
+  .put((req, res, next) => {
+    // Middleware
+    console.log(`Request from: ${req.originalUrl}`)
+    console.log(`Request type: ${req.method}`)
+
+    next();
+  }, (req, res, next) => {
+    res.send('PUT project updates successful.');
+  })
+
+  /*** Delete project by project ID ***/
+  .delete((req, res, next) => {
+    // Middleware
+    console.log(`Request from: ${req.originalUrl}`)
+    console.log(`Request type: ${req.method}`)
+
+    next();
+  }, (req, res, next) => {
+    res.send('DELETE project successful.');
+  })
+};
 
 module.exports = routes;
