@@ -31,3 +31,16 @@ export const getAllProjects = (req, res) => {
     res.json(project);
   });
 };
+
+//
+//
+export const getProjectByID = (req, res) => {
+  // Load project collection
+  // Use mongoose built in findById method on collection
+  // Make use of id parameter from the route (projectRoutes ':/id') to find which project we are looking for
+  Project.findById(req.params.id, (err, project) => {
+    if (err) res.send(err);
+
+    res.json(project);
+  });
+};
