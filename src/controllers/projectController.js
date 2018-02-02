@@ -59,3 +59,17 @@ export const updateProject = (req, res) => {
     res.json(project);
   });
 };
+
+//
+//
+export const deleteProject = (req, res) => {
+  // Pass in id to remove similar to update
+  // TODO: Will possibly changes this ID used in update and delete to our own ID's
+  // Mongo assigns very long id's that we probably don't want to be seen in our URLs
+  Project.remove({ _id: req.params.id }, (err, project) => {
+    if (err) res.send(err);
+
+    // Return a JSON message to alert user that the deletion has been a success
+    res.json({ message: 'Successfully deleted project!' });
+  });
+};

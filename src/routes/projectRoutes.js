@@ -2,7 +2,8 @@ import {
   addNewProject,
   getAllProjects,
   getProjectByID,
-  updateProject
+  updateProject,
+  deleteProject
 } from '../controllers/projectController';
 
 const routes = (app) => {
@@ -47,9 +48,7 @@ const routes = (app) => {
     console.log(`Request type: ${req.method}`)
 
     next();
-  }, (req, res, next) => {
-    res.send('DELETE project successful.');
-  })
+  }, deleteProject)
 };
 
 module.exports = routes;
