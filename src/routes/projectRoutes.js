@@ -1,5 +1,6 @@
-const routes = (app) => {
+import { addNewProject } from '../controllers/projectController';
 
+const routes = (app) => {
   /*** Get all projects ***/
   app.route('/')
   .get((req, res, next) => {
@@ -8,22 +9,14 @@ const routes = (app) => {
     console.log(`Request type: ${req.method}`)
 
     // next() - passing along to the next function below
-    // the res.send code will not execute without this next() call 
+    // the res.send code will not execute without this next() call
     next();
   }, (req, res, next) => {
     res.send('GET all projects successful.');
   })
 
   /*** Save a project ***/
-  .post((req, res, next) => {
-    // Middleware
-    console.log(`Request from: ${req.originalUrl}`)
-    console.log(`Request type: ${req.method}`)
-
-    next();
-  }, (req, res, next) => {
-    res.send('POST of project successful.');
-  })
+  .post(addNewProject);
 
   /*** Get single project by ID ***/
   app.route('/:id')

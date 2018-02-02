@@ -8,6 +8,12 @@ var bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 
+// Body parser setup
+// This is required in order for us to make POST's to the Mongo database
+// Makes data available in req.body
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 // Pass express in to our project routes file to allow the
 // routes to be reached on the server
 projectRoutes(app);
@@ -23,12 +29,6 @@ mongoose.connect('mongodb://localhost/AAFdb', {
   // trying to connect to Mongo without this option
   //useMongoClient: true
 });
-
-// Body parser setup
-// This is required in order for us to make POST's to the Mongo database
-// Makes data available in req.body
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 
 app.listen(PORT, () =>
