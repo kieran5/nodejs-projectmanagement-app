@@ -44,3 +44,18 @@ export const getProjectByID = (req, res) => {
     res.json(project);
   });
 };
+
+//
+//
+export const updateProject = (req, res) => {
+  // Load project collection
+  // Use mongoose method on collection
+  // Pass id from route parameter in to method param
+  // Pass request body in so we know what data we are updating
+  // Tell it that we will be returning new data so that the modified document is returned rather than the original
+  Project.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, project) => {
+    if (err) res.send(err);
+
+    res.json(project);
+  });
+};

@@ -1,4 +1,9 @@
-import { addNewProject, getAllProjects, getProjectByID } from '../controllers/projectController';
+import {
+  addNewProject,
+  getAllProjects,
+  getProjectByID,
+  updateProject
+} from '../controllers/projectController';
 
 const routes = (app) => {
   /*** Get all projects ***/
@@ -33,9 +38,7 @@ const routes = (app) => {
     console.log(`Request type: ${req.method}`)
 
     next();
-  }, (req, res, next) => {
-    res.send('PUT project updates successful.');
-  })
+  }, updateProject)
 
   /*** Delete project by project ID ***/
   .delete((req, res, next) => {
