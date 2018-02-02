@@ -1,4 +1,4 @@
-import { addNewProject } from '../controllers/projectController';
+import { addNewProject, getAllProjects } from '../controllers/projectController';
 
 const routes = (app) => {
   /*** Get all projects ***/
@@ -11,9 +11,7 @@ const routes = (app) => {
     // next() - passing along to the next function below
     // the res.send code will not execute without this next() call
     next();
-  }, (req, res, next) => {
-    res.send('GET all projects successful.');
-  })
+  }, getAllProjects)
 
   /*** Save a project ***/
   .post(addNewProject);

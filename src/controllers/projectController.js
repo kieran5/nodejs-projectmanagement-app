@@ -21,3 +21,13 @@ export const addNewProject = (req, res) => {
     res.json(project);
   });
 };
+
+// Exported function for use on our default GET Request
+// Used to display all projects on homepage
+export const getAllProjects = (req, res) => {
+  Project.find({ /* No parameters here as we want all projects */ }, (err, project) => {
+    if (err) res.send(err);
+
+    res.json(project);
+  });
+};
