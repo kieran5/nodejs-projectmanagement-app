@@ -1,6 +1,7 @@
 // Server
 var express = require('express');
 var projectRoutes = require('./src/routes/projectRoutes');
+var userRoutes = require('./src/routes/userRoutes');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
@@ -14,9 +15,10 @@ const PORT = 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Pass express in to our project routes file to allow the
+// Pass express in to our routes files to allow the
 // routes to be reached on the server
 projectRoutes(app);
+userRoutes(app);
 
 // Mongoose connection
 // Use a promise to make sure a connection is definitely made &
