@@ -20,13 +20,26 @@ export const ProjectSchema = new mongoose.Schema({
     type: Date,
     required: 'Please enter an end date for this project.'
   },
-  // TODO: Change type of contributors to a custom data type
-  contributors: {
-    type: String
+  contributors: [{
+    type: mongoose.Schema.ObjectId, ref: 'User',
+    required: 'A project requires at least one contributor.'
+  }],
+  resources: [{
+    type: mongoose.Schema.ObjectId, ref: 'Resource',
+    required: 'A project requires at least one resource.'
+  }],
+  location: {
+    type: String,
+    required: 'Please enter a location for this project.'
   },
-  // TODO: Change type of resources to a custom data type
-  resources: {
-    type: String
+  totalSteps: {
+    type: Number,
+    min: 1,
+    max: 50
+  },
+  progressStep: {
+    type: Number,
+    default: 1
   },
   createdDate: {
     type: Date,

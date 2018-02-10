@@ -15,5 +15,12 @@ export const UserSchema = new mongoose.Schema({
   },
   passwordConf: {
     type: String
+  },
+  projects: [{
+    type: mongoose.Schema.ObjectId, ref: 'Project'
+  }],
+  permissions: {
+    type: String,
+    default: "standard"
   }
 });

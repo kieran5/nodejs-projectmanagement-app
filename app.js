@@ -2,6 +2,7 @@
 var express = require('express');
 var projectRoutes = require('./src/routes/projectRoutes');
 var userRoutes = require('./src/routes/userRoutes');
+var resourceRoutes = require('./src/routes/resourceRoutes');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -47,6 +48,7 @@ app.use(session({
 // routes to be reached on the server
 projectRoutes(app);
 userRoutes(app);
+resourceRoutes(app);
 
 app.listen(PORT, () =>
   console.log(`Server is running on port ${PORT}`)
