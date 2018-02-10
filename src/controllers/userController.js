@@ -114,3 +114,19 @@ export const logoutUser = (req, res) => {
     return res.json("Session does not exist...");
   }
 };
+
+
+// Middleware to check if user is logged in to allow access to specific pages (e.g. Creating a project)
+export const loginRequired = (req, res, next) => {
+  if(req.session && req.session.userID) {
+    // If a user session exists then allow the middleware to move on to the
+    // next function
+    return next();
+  } else {
+    // Throw an error if there is no user session/no one is logged in
+    return next(new Error('You must be logged in to access this page.'));
+  }
+};
+
+
+//TODO: Middleware to check if a user has special priviledges (e.g. admin, project owner, project contributor)

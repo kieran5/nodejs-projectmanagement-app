@@ -6,6 +6,10 @@ import {
   deleteProject
 } from '../controllers/projectController';
 
+import {
+  loginRequired
+} from '../controllers/userController';
+
 const routes = (app) => {
   /*** Get all projects ***/
   app.route('/')
@@ -18,7 +22,7 @@ const routes = (app) => {
     // next() - passing along to the next function below
     // the res.send code will not execute without this next() call
     next();
-  }, getAllProjects)
+  }, loginRequired, getAllProjects)
 
   /*** Save a project ***/
   .post(addNewProject);
