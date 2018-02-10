@@ -4,10 +4,21 @@ var projectRoutes = require('./src/routes/projectRoutes');
 var userRoutes = require('./src/routes/userRoutes');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 // Initialise express and port number
 const app = express();
 const PORT = 3000;
+
+// Mongoose connection
+// Use a promise to make sure a connection is definitely made &
+// the server does not just sit waiting for a connection
+// TODO: Need to add error handling for this Promise
+mongoose.Promise = global.Promise;
+// Connect to mongo on localhost
+mongoose.connect('mongodb://localhost/AAFdb');
+var db = mongoose.connection;
 
 // Body parser setup
 // This is required in order for us to make POST's to the Mongo database
@@ -15,23 +26,27 @@ const PORT = 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// Setup sessions to be used for login
+// Needs to be setup after body parsed as we need the parsed values to place them in to a session
+// Resave is set to false as this would resave the session on every request which
+// is not required as we will only need to save and update a session on specific requests
+// saveUnitialized set to false so that sessions are only saved once they have been initialised
+// with some data (e.g. req.session.user has a value assigned to it)
+app.use(session({
+  secret: 'big-secret',
+  resave: false,
+  saveUnitialized: false
+  /*store: new MongoStore({
+    mongooseConnection: db
+  }),
+  // maxAge expects ms - hours * 60 minutes * 60 seconds * 1000 ms
+  cookie: { maxAge: 1 * 60 * 1000 }*/
+}));
+
 // Pass express in to our routes files to allow the
 // routes to be reached on the server
 projectRoutes(app);
 userRoutes(app);
-
-// Mongoose connection
-// Use a promise to make sure a connection is definitely made &
-// the server does not just sit waiting for a connection
-mongoose.Promise = global.Promise;
-// Connect to mongo on localhost
-mongoose.connect('mongodb://localhost/AAFdb', {
-  // Need this option to be enabled so we don't get an error
-  // Due to an update to Mongoose that causes issues when
-  // trying to connect to Mongo without this option
-  //useMongoClient: true
-});
-
 
 app.listen(PORT, () =>
   console.log(`Server is running on port ${PORT}`)

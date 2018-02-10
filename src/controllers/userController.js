@@ -10,6 +10,8 @@ export const createUser = (req, res) => {
   // Show error message if they do not match
   if(req.body.password === req.body.passwordConf) {
     // Pass username and password fields text in to a new User object
+    // We leave the passwordConf out of this object as we only want to hash
+    // and save the password once to the DB
     let newUser = new User({
       username: req.body.username,
       password: req.body.password
@@ -51,6 +53,7 @@ export const createUser = (req, res) => {
   }
 };
 
+// Function to check user credentials and log in making use of a session
 export const checkUser = (req, res) => {
   // Get hashed password for user from database
   // Find user by the username entered in to the text field by the user
@@ -58,22 +61,56 @@ export const checkUser = (req, res) => {
   User.findOne({ 'username': req.body.username }, 'password', (err, user) => {
     if (err) {
       res.send(err);
+    } else if(!user) {
+      // No username in database matching provided username
+      res.json("No such username! Try again or register.");
+
     } else {
       // bcrypt compare function will take the password entered in to the text
       // field, hash it, then compare with the hash pulled from the database
-      bcrypt.compare(req.body.password, user.password, function(err, res) {
-        if(res) {
+      bcrypt.compare(req.body.password, user.password, function(err, match) {
+        if(match) {
           // Passwords match
-          // Create a session
           // Return user to homepage with success message
-          console.log(res);
+          res.json("Logged in successfully!");
+
+          // Place user id in to session variable
+          req.session.userID = user._id;
+
+          console.log(req.session);
+          console.log(req.session.userID);
+
+          return req.session.save();
 
         } else {
           // Password do not match
           // Return user to login page with error message
-          console.log(res);
+          return res.json("Incorrect username or password.");
         }
       });
     }
   });
+};
+
+// Function to log out and destroy the current user session
+export const logoutUser = (req, res) => {
+  // If a user session exists
+  if(req.session.userID) {
+    console.log("Session exists.");
+
+    // Delete session object
+    req.session.destroy(function(err) {
+      if(err) {
+        console.log(err);
+        return res.json(err);
+      } else {
+
+        console.log("Session destroyed.");
+        return res.redirect('/');
+      }
+    });
+
+  } else {
+    return res.json("Session does not exist...");
+  }
 };

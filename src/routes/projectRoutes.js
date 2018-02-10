@@ -13,6 +13,7 @@ const routes = (app) => {
     // Middleware
     console.log(`Request from: ${req.originalUrl}`)
     console.log(`Request type: ${req.method}`)
+    console.log(req.session.userID);
 
     // next() - passing along to the next function below
     // the res.send code will not execute without this next() call
@@ -23,7 +24,7 @@ const routes = (app) => {
   .post(addNewProject);
 
   /*** Get single project by ID ***/
-  app.route('/:id')
+  app.route('/projects/:id')
   .get((req, res, next) => {
     // Middleware
     console.log(`Request from: ${req.originalUrl}`)

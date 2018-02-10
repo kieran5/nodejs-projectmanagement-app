@@ -1,6 +1,7 @@
 import {
   createUser,
-  checkUser
+  checkUser,
+  logoutUser
 } from '../controllers/userController';
 
 const routes = (app) => {
@@ -14,6 +15,9 @@ const routes = (app) => {
 
   app.route('/login')
   .post(checkUser);
+
+  app.route('/logout')
+  .get(logoutUser);
 }
 
 module.exports = routes;
