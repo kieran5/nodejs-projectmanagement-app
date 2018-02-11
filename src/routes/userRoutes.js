@@ -1,7 +1,10 @@
 import {
   createUser,
   checkUser,
-  logoutUser
+  logoutUser,
+  getAllUsers,
+  updateUser,
+  deleteUser
 } from '../controllers/userController';
 
 const routes = (app) => {
@@ -18,6 +21,13 @@ const routes = (app) => {
 
   app.route('/logout')
   .get(logoutUser);
+
+  app.route('/users')
+  .get(getAllUsers);
+
+  app.route('/user/:id')
+  .put(updateUser)
+  .delete(deleteUser);
 }
 
 module.exports = routes;

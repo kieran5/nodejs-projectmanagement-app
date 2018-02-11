@@ -115,6 +115,36 @@ export const logoutUser = (req, res) => {
   }
 };
 
+// Get all users function so that we can display a full list of users to admins
+// so they can edit or delete user accounts
+export const getAllUsers = (req, res) => {
+  User.find({ }, (err, user) => {
+    if (err) res.send(err);
+
+    res.json(user);
+  });
+};
+
+// Update user function so that an admin account is able to edit other use accounts
+// We will make use of seperate middleware to ensure only admins can do this
+export const updateUser = (req, res) => {
+  User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, user) => {
+    if (err) res.send(err);
+
+    res.json(user);
+  });
+};
+
+// TODO: Check how to do this safely
+// Will restrict this to be used by admin accounts only as well as edit user
+export const deleteUser = (req, res) => {
+  User.remove({ _id: req.params.id }, (err, user) => {
+    if (err) res.send(err);
+
+    res.json({ message: 'Successfully deleted user!'})
+  });
+};
+
 
 // Middleware to check if user is logged in to allow access to specific pages (e.g. Creating a project)
 export const loginRequired = (req, res, next) => {
