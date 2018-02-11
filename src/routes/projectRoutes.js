@@ -12,7 +12,7 @@ import {
 
 const routes = (app) => {
   /*** Get all projects ***/
-  app.route('/')
+  app.route('/projects')
   .get((req, res, next) => {
     // Middleware
     console.log(`Request from: ${req.originalUrl}`)
@@ -22,7 +22,7 @@ const routes = (app) => {
     // next() - passing along to the next function below
     // the res.send code will not execute without this next() call
     next();
-  }, loginRequired, getAllProjects)
+  }, getAllProjects)
 
   /*** Save a project ***/
   .post(addNewProject);

@@ -10,7 +10,7 @@ var MongoStore = require('connect-mongo')(session);
 
 // Initialise express and port number
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 // Mongoose connection
 // Use a promise to make sure a connection is definitely made &
