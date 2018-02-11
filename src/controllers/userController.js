@@ -160,3 +160,29 @@ export const loginRequired = (req, res, next) => {
 
 
 //TODO: Middleware to check if a user has special priviledges (e.g. admin, project owner, project contributor)
+
+// Middleware to check if a user is on an admin account to allow for special priviledges
+export const adminAccountCheck = (req, res, next) => {
+  // Check a user is logged in before doing check
+  if(req.session.userID) {
+    // Execute find query on database making use of user ID on current session
+    // We only need the permissions field for this check
+    User.findOne({ '_id': req.session.userID }, 'permissions', (err, user) => {
+      // Check there are no errors when querying the database
+      if (err) {
+        res.send(err);
+      } else {
+        // Permissions are just strings. If admin account, tell the middleware
+        // to make use of next to continue on to next function
+        if(user.permissions === "admin") {
+          return next();
+        } else {
+          // Otherwise we send an error telling user they are not on an admin account
+          return next(new Error('You do not have permission to access this page.'));
+        }
+      }
+    });
+  } else {
+    return next(new Error('You are not logged in.'));
+  }
+};

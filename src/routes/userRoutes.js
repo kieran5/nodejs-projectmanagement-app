@@ -4,7 +4,9 @@ import {
   logoutUser,
   getAllUsers,
   updateUser,
-  deleteUser
+  deleteUser,
+  loginRequired,
+  adminAccountCheck
 } from '../controllers/userController';
 
 const routes = (app) => {
@@ -23,11 +25,11 @@ const routes = (app) => {
   .get(logoutUser);
 
   app.route('/users')
-  .get(getAllUsers);
+  .get(adminAccountCheck, getAllUsers);
 
   app.route('/user/:id')
-  .put(updateUser)
-  .delete(deleteUser);
+  .put(adminAccountCheck, updateUser)
+  .delete(adminAccountCheck, deleteUser);
 }
 
 module.exports = routes;
