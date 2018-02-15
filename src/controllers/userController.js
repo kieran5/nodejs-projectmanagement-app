@@ -43,8 +43,9 @@ export const createUser = (req, res) => {
       if (err) {
         res.send(err);
       } else {
-        res.json(user);
-        //res.redirect('/');
+        //res.json(user);
+        //res.json("Registration successful!");
+        res.redirect('/');
       }
     });
   } else {
@@ -72,7 +73,8 @@ export const checkUser = (req, res) => {
         if(match) {
           // Passwords match
           // Return user to homepage with success message
-          res.json("Logged in successfully!");
+          //res.json("Logged in successfully!");
+          res.redirect('/');
 
           // Place user id in to session variable
           req.session.userID = user._id;
