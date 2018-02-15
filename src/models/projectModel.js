@@ -9,7 +9,7 @@ export const ProjectSchema = new mongoose.Schema({
     required: 'Please enter a name for the project.'
   },
   creator: {
-    type: String,
+    type: mongoose.Schema.ObjectId, ref: 'User',
     required: 'Please enter your name as the creator of this project.'
   },
   startDate: {

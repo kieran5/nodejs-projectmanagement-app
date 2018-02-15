@@ -4,6 +4,7 @@ import '../styles/App.css';
 import Login from './Login';
 import Projects from './Projects';
 import Register from './Register';
+import AddProject from './AddProject';
 import {
   BrowserRouter as Router,
   Route,
@@ -11,7 +12,52 @@ import {
 } from 'react-router-dom';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+
+    this.state = {
+      isLoggedIn: false
+    }
+  }
+
+  /*componentDidMount() {
+    fetch('/login')
+      .then(req)
+  }*/
+
+  handleLoginClick() {
+    this.setState({isLoggedIn:true});
+  }
+
+  handleLogoutClick() {
+    this.setState({isLoggedIn:false});
+  }
+
   render() {
+    const isLoggedIn = this.state.isLoggedIn;
+    //const isLoggedIn = false;
+    //alert(sessionStorage.getItem('username'));
+    //alert(this.props);
+    //console.log(this.props);
+    //console.log(sessionStorage);
+
+    let linkToRender = null;
+    if(isLoggedIn) {
+      linkToRender =
+      (<li className="nav-item">
+        <NavLink to="/logout" activeClassName="activeNav" className="nav-link">Logout</NavLink>
+      </li>)
+    } else {
+      linkToRender =
+      (<li className="nav-item">
+        <NavLink to="/login" activeClassName="activeNav" className="nav-link">Login</NavLink>
+      </li>
+      )
+
+    }
+
     return (
       <Router>
         <div>
@@ -26,11 +72,15 @@ class App extends Component {
                 <li className="nav-item">
                   <NavLink to="/" exact activeClassName="activeNav" className="nav-link">Home</NavLink>
                 </li>
-                <li className="nav-item">
-                  <NavLink to="/login" activeClassName="activeNav" className="nav-link">Login</NavLink>
-                </li>
+
+                {linkToRender}
+
                 <li className="nav-item">
                   <NavLink to="/register" activeClassName="activeNav" className="nav-link">Register</NavLink>
+                </li>
+
+                <li className="nav-item">
+                  <NavLink to="/addProject" activeClassName="activeNav" className="nav-link">Add New Project</NavLink>
                 </li>
               </ul>
               <form className="form-inline my-2 my-lg-0">
@@ -43,6 +93,7 @@ class App extends Component {
           <Route exact path="/" component={Projects} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/addProject" component={AddProject} />
 
         </div>
       </Router>

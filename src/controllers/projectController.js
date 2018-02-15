@@ -13,7 +13,18 @@ export const addNewProject = (req, res) => {
   // req.body is the form data posted by the user when creating a new project
   // We take each of those fields and compare with our model Schema
   // Before posting/saving to our Mongo database
-  let newProject = new Project(req.body);
+  let newProject = new Project({
+    name: req.body.name,
+    creator: req.session.userID,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    contributors: req.body.contributors,
+    resources: req.body.resources,
+    location: req.body.location,
+    totalSteps: req.body.totalSteps
+  });
+
+
 
   newProject.save((err, project) => {
     if (err) res.send(err);
