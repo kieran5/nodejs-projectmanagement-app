@@ -25,7 +25,7 @@ const routes = (app) => {
   .get(logoutUser);
 
   app.route('/users')
-  .get(adminAccountCheck, getAllUsers);
+  .get(getAllUsers);
 
   app.route('/user/:id')
   .put(adminAccountCheck, updateUser)
