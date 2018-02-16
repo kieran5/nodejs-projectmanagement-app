@@ -9,7 +9,7 @@ class Register extends Component {
   state = {
     username: "",
     usernameError: "",
-    passowrd: "",
+    password: "",
     passwordError: "",
     passwordConf: "",
     passwordConfError: ""
@@ -34,6 +34,15 @@ class Register extends Component {
       errors.usernameError = "Username must be longer than 3 characters.";
     }
 
+    if(this.state.password.length < 4) {
+      error = true;
+      errors.passwordError = "Password must be longer than 3 characters.";
+    }
+
+    if(this.state.password != this.state.passwordConf) {
+      error = true;
+      errors.passwordConfError = "Confirm password field does not match password field.";
+    }
 
     this.setState({
       ...this.state,
@@ -134,7 +143,7 @@ class Register extends Component {
             floatingLabelFixed
           />
 
-          <RaisedButton label="Submit" onClick={e => this.onSubmit(e)} primary />
+          <RaisedButton type="submit" label="Submit" onClick={e => this.onSubmit(e)} primary />
 
           </form>
         </MuiThemeProvider>
