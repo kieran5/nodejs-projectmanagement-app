@@ -25,7 +25,7 @@ class Projects extends Component {
         <h2>Projects</h2>
         <ul>
           {this.state.projects.map(project =>
-            <li key={project._id}>{ project.name } - { project.location }</li>
+            <li key={project._id}><a href={"/projects/" + project._id} >{ project.name } - { project.location }</a></li>
           )}
         </ul>
       </div>
