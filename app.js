@@ -44,6 +44,12 @@ app.use(session({
   cookie: { maxAge: 1 * 60 * 1000 }*/
 }));
 
+app.get('*', (req, res, next) => {
+  res.locals.user = req.session || null;
+  console.log("res.locals.user: " + JSON.stringify(res.locals.user));
+  next();
+});
+
 // Pass express in to our routes files to allow the
 // routes to be reached on the server
 projectRoutes(app);

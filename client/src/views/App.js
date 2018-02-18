@@ -33,11 +33,12 @@ class App extends Component {
   }
 
   getSearchResults() {
-    
+
   }
 
   componentDidMount() {
-    fetch('/user/current')
+    console.log("fetch");
+    fetch('/currentUser')
       .then(res => res.json())
       .then(user => this.setState({ user },
       () => console.log('User fetched: ', user)));
@@ -60,6 +61,12 @@ class App extends Component {
     //alert(this.props);
     //console.log(this.props);
     //console.log(sessionStorage);
+
+    //console.log(this.state.user.userID);
+    //console.log(this.props.user);
+
+    //console.log(sessionStorage);
+
 
     let linkToRender = null;
     if(isLoggedIn) {

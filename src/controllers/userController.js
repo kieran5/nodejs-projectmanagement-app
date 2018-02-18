@@ -192,12 +192,12 @@ export const adminAccountCheck = (req, res, next) => {
 // Return current logged in user from session so front end knows which buttons to display etc.
 export const getCurrentUser = (req, res) => {
   console.log("func called.");
-  console.log("ye: " + req.session.userID);
+  console.log("res.locals.user.username: " + res.locals.user.username);
+  console.log("req.session.userID: " + req.session.userID);
+  
   if(req.session.userID) {
 
-    User.find({
-      _id: req.session.userID
-    }, (err, user) => {
+    User.findById(req.session.userID, (err, user) => {
       if (err) res.send(err);
 
       res.json(user);

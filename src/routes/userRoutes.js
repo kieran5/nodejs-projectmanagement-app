@@ -33,7 +33,7 @@ const routes = (app) => {
   .delete(adminAccountCheck, deleteUser);
 
   /*** Get the logged in user from session if there is one ***/
-  app.route('/user/current')
+  app.route('/currentUser')
   .get((req, res, next) => {
     console.log(`Request from: ${req.originalUrl}`)
     console.log(`Request type: ${req.method}`)

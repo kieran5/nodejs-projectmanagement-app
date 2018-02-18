@@ -6,7 +6,8 @@ class ProjectDetail extends Component {
     super();
 
     this.state = {
-      project: {}
+      project: {},
+      user: {}
     }
   }
 
@@ -15,6 +16,11 @@ class ProjectDetail extends Component {
       .then(res => res.json())
       .then(project => this.setState({ project },
       () => console.log('Project fetched: ', project)));
+
+    fetch('/currentUser')
+      .then(res => res.json())
+      .then(user => this.setState({ user },
+      () => console.log('User fetched: ', user)));
   }
 
 
@@ -37,7 +43,10 @@ class ProjectDetail extends Component {
 
         Step { this.state.project.progressStep } out of { this.state.project.totalSteps } complete.
 
-        
+        <br></br>
+        { this.state.user.username }
+
+
 
       </div>
     );
