@@ -3,7 +3,8 @@ import {
   getAllProjects,
   getProjectByID,
   updateProject,
-  deleteProject
+  deleteProject,
+  searchProjectByName
 } from '../controllers/projectController';
 
 import {
@@ -54,6 +55,9 @@ const routes = (app) => {
 
     next();
   }, deleteProject)
+
+  app.route('/projectSearch/:search')
+  .get(searchProjectByName);
 };
 
 module.exports = routes;

@@ -84,3 +84,12 @@ export const deleteProject = (req, res) => {
     res.json({ message: 'Successfully deleted project!' });
   });
 };
+
+
+export const searchProjectByName = (req, res) => {
+  Project.find({ name: req.params.search }, (err, project) => {
+    if (err) res.send(err);
+
+    res.json(project);
+  });
+};

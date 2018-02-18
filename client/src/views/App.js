@@ -20,8 +20,20 @@ class App extends Component {
 
     this.state = {
       user: {},
-      isLoggedIn: false
+      isLoggedIn: false,
+      searchQuery: "",
+      searchResults: []
     }
+  }
+
+  change = (e) => {
+    this.setState({
+      searchText: e.target.value
+    });
+  }
+
+  getSearchResults() {
+    
   }
 
   componentDidMount() {
@@ -95,7 +107,15 @@ class App extends Component {
                 </li>
               </ul>
               <form className="form-inline my-2 my-lg-0">
-                <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
+                <input
+                  className="form-control mr-sm-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  value={this.state.searchQuery}
+                  onChange={e => this.change(e)}
+                >
+                </input>
                 <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
             </div>
