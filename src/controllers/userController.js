@@ -188,3 +188,19 @@ export const adminAccountCheck = (req, res, next) => {
     return next(new Error('You are not logged in.'));
   }
 };
+
+// Return current logged in user from session so front end knows which buttons to display etc.
+export const getCurrentUser = (req, res) => {
+  console.log("func called.");
+  console.log("ye: " + req.session.userID);
+  if(req.session.userID) {
+
+    User.find({
+      _id: req.session.userID
+    }, (err, user) => {
+      if (err) res.send(err);
+
+      res.json(user);
+    });
+  }
+};

@@ -19,14 +19,19 @@ class App extends Component {
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
 
     this.state = {
+      user: {},
       isLoggedIn: false
     }
   }
 
-  /*componentDidMount() {
-    fetch('/login')
-      .then(req)
-  }*/
+  componentDidMount() {
+    fetch('/user/current')
+      .then(res => res.json())
+      .then(user => this.setState({ user },
+      () => console.log('User fetched: ', user)));
+
+
+  }
 
   handleLoginClick() {
     this.setState({isLoggedIn:true});
@@ -38,7 +43,7 @@ class App extends Component {
 
   render() {
     const isLoggedIn = this.state.isLoggedIn;
-    //const isLoggedIn = false;
+    //const isLoggedIn = true;
     //alert(sessionStorage.getItem('username'));
     //alert(this.props);
     //console.log(this.props);
@@ -47,16 +52,23 @@ class App extends Component {
     let linkToRender = null;
     if(isLoggedIn) {
       linkToRender =
-      (<li className="nav-item">
-        <NavLink to="/logout" activeClassName="activeNav" className="nav-link">Logout</NavLink>
-      </li>)
+      (
+        <li className="nav-item">
+          <NavLink to="/logout" activeClassName="activeNav" className="nav-link">Logout</NavLink>
+        </li>
+      )
     } else {
       linkToRender =
-      (<li className="nav-item">
-        <NavLink to="/login" activeClassName="activeNav" className="nav-link">Login</NavLink>
-      </li>
+      (
+        <div>
+          <li className="nav-item">
+            <NavLink to="/login" activeClassName="activeNav" className="nav-link">Login</NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/register" activeClassName="activeNav" className="nav-link">Register</NavLink>
+          </li>
+        </div>
       )
-
     }
 
     return (
@@ -76,9 +88,7 @@ class App extends Component {
 
                 {linkToRender}
 
-                <li className="nav-item">
-                  <NavLink to="/register" activeClassName="activeNav" className="nav-link">Register</NavLink>
-                </li>
+
 
                 <li className="nav-item">
                   <NavLink to="/addProject" activeClassName="activeNav" className="nav-link">Add New Project</NavLink>
