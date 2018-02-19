@@ -6,6 +6,7 @@ import Projects from './Projects';
 import Register from './Register';
 import AddProject from './AddProject';
 import ProjectDetail from './ProjectDetail';
+import EditProject from './EditProject';
 import {
   BrowserRouter as Router,
   Route,
@@ -133,6 +134,7 @@ class App extends Component {
           <Route path="/register" component={Register} />
           <Route path="/addProject" component={AddProject} />
           <Route path="/projects/" component={ProjectDetail} />
+          <Route path="/projectsEdit/" component={EditProject} />
 
         </div>
       </Router>
