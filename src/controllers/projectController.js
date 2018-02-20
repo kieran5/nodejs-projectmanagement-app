@@ -36,7 +36,7 @@ export const addNewProject = (req, res) => {
 // Exported function for use on our default GET Request
 // Used to display all projects on homepage
 export const getAllProjects = (req, res) => {
-  Project.find({ /* No parameters here as we want all projects */ }, (err, project) => {
+  Project.find({ deletionFlag: true }, (err, project) => {
     if (err) res.send(err);
 
     res.json(project);
@@ -88,6 +88,15 @@ export const deleteProject = (req, res) => {
 
 export const searchProjectByName = (req, res) => {
   Project.find({ name: req.params.search }, (err, project) => {
+    if (err) res.send(err);
+
+    res.json(project);
+  });
+};
+
+
+export const softDeleteProject = (req, res) => {
+  Project.findOneAndUpdate({ _id: req.params.id }, { deletionFlag: true }, { new: true }, (err, project) => {
     if (err) res.send(err);
 
     res.json(project);

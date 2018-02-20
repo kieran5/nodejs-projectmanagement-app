@@ -44,5 +44,9 @@ export const ProjectSchema = new mongoose.Schema({
   createdDate: {
     type: Date,
     default: Date.now
+  },
+  deletionFlag: {
+    type: Boolean,
+    default: false
   }
 });

@@ -4,7 +4,8 @@ import {
   getProjectByID,
   updateProject,
   deleteProject,
-  searchProjectByName
+  searchProjectByName,
+  softDeleteProject
 } from '../controllers/projectController';
 
 import {
@@ -58,6 +59,9 @@ const routes = (app) => {
 
   app.route('/projectSearch/:search')
   .get(searchProjectByName);
+
+  app.route('/projectSoftDelete/:id')
+  .put(softDeleteProject);
 };
 
 module.exports = routes;

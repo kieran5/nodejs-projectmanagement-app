@@ -5,10 +5,20 @@ class ProjectDetail extends Component {
   constructor() {
     super();
 
+    this.onDelete = this.onDelete.bind(this);
+
     this.state = {
       project: {},
       user: {}
     }
+  }
+
+  onDelete = () => {
+    console.log("onDelete called.");
+    return fetch('/projectSoftDelete/' + this.props.location.pathname.substring(10), {
+      method: 'put'
+    })
+    .then(res => res.json());
   }
 
   componentDidMount() {
@@ -42,6 +52,8 @@ class ProjectDetail extends Component {
         { this.state.project.resources }
 
         Step { this.state.project.progressStep } out of { this.state.project.totalSteps } complete.
+
+        <button onClick={this.onDelete}>Delete Project</button>
 
         <br></br>
         { this.state.user.username }
