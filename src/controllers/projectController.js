@@ -102,3 +102,7 @@ export const softDeleteProject = (req, res) => {
     res.json(project);
   });
 };
+
+export const testFunc = () => {
+  return 'hello';
+};
