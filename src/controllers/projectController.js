@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { ProjectSchema } from '../models/projectModel';
+import { User } from './userController';
 
 // Creating project variable so Project objects can be created
 // Modelled around the schema we have built
@@ -28,6 +29,19 @@ export const addNewProject = (req, res) => {
 
   newProject.save((err, project) => {
     if (err) res.send(err);
+
+    // Update chosen contributors project arrays so users current projects stay updated
+    var contributors = req.body.contributors;
+    for(var i=0; i < contributors.length; i++) {
+      User.findOneAndUpdate({ '_id': contributors[i] },{ projects: project._id }, { new: true }, (err) => {
+        if (err) res.send(err);
+      });
+    }
+
+    // Update creators project list as well
+    User.findOneAndUpdate({ '_id': req.session.userID || req.body.creator },{ projects: project._id }, { new: true }, (err) => {
+      if (err) res.send(err);
+    });
 
     res.json(project);
   });

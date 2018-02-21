@@ -94,6 +94,9 @@ describe('ProjectController', function() {
           res.body.should.have.property('deletionFlag');
           res.body.name.should.equal('Test Project');
 
+          // Check only projects with no deletion flag are shown
+          res.body.deletionFlag.should.equal(false);
+
           // Remove test project from DB after each time this test has executed
           Project.remove({ name: "Test Project" }, function(err) {
             if (err) console.log(err);

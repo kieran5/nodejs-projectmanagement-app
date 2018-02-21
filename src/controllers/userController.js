@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { UserSchema } from '../models/userModel';
 import bcrypt from 'bcrypt';
 
-const User = mongoose.model('User', UserSchema);
+export const User = mongoose.model('User', UserSchema);
 
 // Exported function for register user route to use
 export const createUser = (req, res) => {
