@@ -4,27 +4,41 @@ import mongoose from 'mongoose';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import {
-  testFunc,
-  getAllProjects
+  Project,
+  deleteProject
 } from '../src/controllers/projectController';
 import app from '../app';
 
 chai.use(chaiHttp);
-//let assert = chai.assert();
 let should = chai.should();
+let assert = chai.assert;
+
 
 describe('ProjectController', function() {
-  /*describe('testFunc() test', function() {
-    it('Test func should return hello', function() {
-      assert.equal(testFunc(), 'hello');
+
+  beforeEach(function(done) {
+    var newProject = new Project({
+      'name': 'My Test Project',
+      'creator': '5a7f62c16b490726c440613a',
+      'startDate': '02-30-2018',
+      'endDate': '02-28-2019',
+      'contributors': [],
+      'resources': [],
+      'location': 'Sheffield',
+      'totalSteps': '10'
     });
 
-    it('Test func should return type string', function() {
-      assert.typeOf(testFunc(), 'string');
+    newProject.save(function(err) {
+      done();
     });
-  });*/
+  });
 
-
+  afterEach(function(done) {
+    Project.remove({ name: "My Test Project" }, function(err) {
+      if (err) console.log(err);
+    });
+    done();
+  });
 
   describe('GET all projects test', function() {
     it('Should return list of ALL projects JSON objects on /projects GET', function(done) {
@@ -79,11 +93,21 @@ describe('ProjectController', function() {
           res.body.should.have.property('createdDate');
           res.body.should.have.property('deletionFlag');
           res.body.name.should.equal('Test Project');
+
+          // Remove test project from DB after each time this test has executed
+          Project.remove({ name: "Test Project" }, function(err) {
+            if (err) console.log(err);
+          });
           done();
         });
     });
   });
 
+  //describe('', function() {
 
-  
+  //});
+
+
+
+
 });

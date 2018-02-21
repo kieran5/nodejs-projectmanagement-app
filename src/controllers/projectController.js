@@ -4,7 +4,7 @@ import { ProjectSchema } from '../models/projectModel';
 // Creating project variable so Project objects can be created
 // Modelled around the schema we have built
 // Each Project object will then be saved to our DB via mongoose
-const Project = mongoose.model('Project', ProjectSchema);
+export const Project = mongoose.model('Project', ProjectSchema);
 
 // Export this function so we can call it in our routes file when
 // the save project route (POST request) is called upon by the server
@@ -101,8 +101,4 @@ export const softDeleteProject = (req, res) => {
 
     res.json(project);
   });
-};
-
-export const testFunc = () => {
-  return 'hello';
 };

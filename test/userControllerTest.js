@@ -11,18 +11,23 @@ chai.use(chaiHttp);
 let should = chai.should();
 
 describe('UserController', function() {
-  describe('Check new user POST & password is hashed test', function() {
-    it('Should return a different password to the one that was entered by the user', function(done) {
+  describe('Register user with POST request but with mismatching password and password confirmed fields', function() {
+    it('Should return json error response', function(done) {
       chai.request(app)
-        .post('/users')
+        .post('/register')
         .send({
-
+          'username': 'Test User',
+          'password': 'pass',
+          'passwordConf': 'passw'
         })
         .end(function(err, res) {
-          //res.should.be.json;
-
+          res.should.be.json;
+          res.body.should.equal('Password and confirm password fields are different.');
           done();
-        });
+        })
     });
   });
+
+  
+
 });
