@@ -4,6 +4,9 @@ import chaiHttp from 'chai-http';
 import {
   User
 } from '../src/controllers/userController';
+import {
+  Project
+} from '../src/controllers/projectController';
 import app from '../app';
 
 chai.use(chaiHttp);
@@ -49,7 +52,48 @@ describe('UserController', function() {
     });
   });
 
-  
+  describe('Test a users projects list is updated after a new project is created with said user set as a contributor', function() {
+    it('Should return users JSON object with new project in projects array', function(done) {
+      chai.request(app)
+      .get('/users')
+      .end(function(err, res) {
+        chai.request(app)
+          .post('/projects')
+          .send({
+            'name': 'User Controller Test Project',
+            'creator': '5a7f62c16b490726c440613a',
+            'startDate': '02-30-2018',
+            'endDate': '02-28-2019',
+            'contributors': [res.body[0]._id],
+            'resources': [],
+            'location': 'Sheffield',
+            'totalSteps': '10'
+          })
+          .end(function(err, res) {
+            chai.request(app)
+              .get('/users')
+              .end(function(err, res) {
+
+                var result = res.body[0].projects.toString();
+                Project.findOne({ name: 'User Controller Test Project' }, '_id', function(err, project) {
+                  result.should.equal(project._id.toString());
+                });
+
+                // Remove test project from DB after each time this test has executed
+                Project.remove({ name: 'User Controller Test Project' }, function(err) {
+                  if (err) console.log(err);
+                });
+
+                done();
+              });
+          });
+      });
+    });
+  });
+
+  /*describe('Test session is set after successful login', function() {
+
+  })*/
 
   /*describe('Register user and check password is being hashed (e.g. entered password does not match password from DB)', function() {
     it('Should return that passwords do not match', function(done) {

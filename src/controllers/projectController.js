@@ -33,13 +33,13 @@ export const addNewProject = (req, res) => {
     // Update chosen contributors project arrays so users current projects stay updated
     var contributors = req.body.contributors;
     for(var i=0; i < contributors.length; i++) {
-      User.findOneAndUpdate({ '_id': contributors[i] },{ projects: project._id }, { new: true }, (err) => {
+      User.findOneAndUpdate({ '_id': contributors[i] },{ $push: { projects: project._id } }, { safe: true, upsert: true }, (err) => {
         if (err) res.send(err);
       });
     }
 
     // Update creators project list as well
-    User.findOneAndUpdate({ '_id': req.session.userID || req.body.creator },{ projects: project._id }, { new: true }, (err) => {
+    User.findOneAndUpdate({ '_id': req.session.userID || req.body.creator },{ $push: { projects: project._id } }, { safe: true, upsert: true }, (err) => {
       if (err) res.send(err);
     });
 

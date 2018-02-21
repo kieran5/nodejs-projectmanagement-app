@@ -18,7 +18,7 @@ describe('ProjectController', function() {
 
   beforeEach(function(done) {
     var newProject = new Project({
-      'name': 'My Test Project',
+      'name': 'Project Controller Test Project',
       'creator': '5a7f62c16b490726c440613a',
       'startDate': '02-30-2018',
       'endDate': '02-28-2019',
@@ -28,13 +28,14 @@ describe('ProjectController', function() {
       'totalSteps': '10'
     });
 
-    newProject.save(function(err) {
+    newProject.save(function(err, projectAdded) {
+      if (err) console.log(err);
       done();
     });
   });
 
   afterEach(function(done) {
-    Project.remove({ name: "My Test Project" }, function(err) {
+    Project.remove({ name: "Project Controller Test Project" }, function(err) {
       if (err) console.log(err);
     });
     done();
@@ -69,7 +70,7 @@ describe('ProjectController', function() {
       chai.request(app)
         .post('/projects')
         .send({
-          'name': 'Test Project',
+          'name': 'Project Controller Test Project',
           'creator': '5a7f62c16b490726c440613a',
           'startDate': '02-30-2018',
           'endDate': '02-28-2019',
@@ -92,13 +93,13 @@ describe('ProjectController', function() {
           res.body.should.have.property('progressStep');
           res.body.should.have.property('createdDate');
           res.body.should.have.property('deletionFlag');
-          res.body.name.should.equal('Test Project');
+          res.body.name.should.equal('Project Controller Test Project');
 
           // Check only projects with no deletion flag are shown
           res.body.deletionFlag.should.equal(false);
 
           // Remove test project from DB after each time this test has executed
-          Project.remove({ name: "Test Project" }, function(err) {
+          Project.remove({ name: "Project Controller Test Project" }, function(err) {
             if (err) console.log(err);
           });
           done();
@@ -106,9 +107,9 @@ describe('ProjectController', function() {
     });
   });
 
-  //describe('', function() {
+  /*describe('Test a resource has been made unavailabe after a new created project has made use of it', function() {
 
-  //});
+  });*/
 
 
 
