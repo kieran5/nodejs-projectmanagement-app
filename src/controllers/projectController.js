@@ -15,7 +15,7 @@ export const addNewProject = (req, res) => {
   // Before posting/saving to our Mongo database
   let newProject = new Project({
     name: req.body.name,
-    creator: req.session.userID,
+    creator: req.session.userID || req.body.creator,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
     contributors: req.body.contributors,
@@ -36,7 +36,7 @@ export const addNewProject = (req, res) => {
 // Exported function for use on our default GET Request
 // Used to display all projects on homepage
 export const getAllProjects = (req, res) => {
-  Project.find({ deletionFlag: true }, (err, project) => {
+  Project.find({ deletionFlag: false }, (err, project) => {
     if (err) res.send(err);
 
     res.json(project);

@@ -194,7 +194,7 @@ export const getCurrentUser = (req, res) => {
   console.log("func called.");
   console.log("res.locals.user.username: " + res.locals.user.username);
   console.log("req.session.userID: " + req.session.userID);
-  
+
   if(req.session.userID) {
 
     User.findById(req.session.userID, (err, user) => {
