@@ -28,7 +28,7 @@ const routes = (app) => {
   }, getAllProjects)
 
   /*** Save a project ***/
-  .post(addNewProject);
+  .post(loginRequired, addNewProject);
 
   /*** Get single project by ID ***/
   app.route('/projects/:id')
@@ -62,7 +62,7 @@ const routes = (app) => {
   .get(searchProjectByName);
 
   app.route('/projectSoftDelete/:id')
-  .put(softDeleteProject);
+  .put(loginRequired, softDeleteProject);
 
   app.route('/projectNextStep/:id')
   .put(progressProjectToNextStep);
