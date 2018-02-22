@@ -28,7 +28,7 @@ const routes = (app) => {
   app.route('/users')
   .get(getAllUsers);
 
-  app.route('/user/:id')
+  app.route('/users/:id')
   .put(adminAccountCheck, updateUser)
   .delete(adminAccountCheck, deleteUser);
 
