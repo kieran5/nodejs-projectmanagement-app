@@ -5,7 +5,8 @@ import {
   updateProject,
   deleteProject,
   searchProjectByName,
-  softDeleteProject
+  softDeleteProject,
+  progressProjectToNextStep
 } from '../controllers/projectController';
 
 import {
@@ -62,6 +63,9 @@ const routes = (app) => {
 
   app.route('/projectSoftDelete/:id')
   .put(softDeleteProject);
+
+  app.route('/projectNextStep/:id')
+  .put(progressProjectToNextStep);
 };
 
 module.exports = routes;

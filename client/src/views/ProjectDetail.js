@@ -21,6 +21,13 @@ class ProjectDetail extends Component {
     .then(res => res.json());
   }
 
+  nextStep = () => {
+    console.log("nextStep function called.");
+    return fetch('/projectNextStep/' + this.props.location.pathname.substring(10), {
+      method: 'put'
+    });
+  };
+
   componentDidMount() {
     fetch('/projects/' + this.props.location.pathname.substring(10))
       .then(res => res.json())
@@ -53,10 +60,14 @@ class ProjectDetail extends Component {
 
         Step { this.state.project.progressStep } out of { this.state.project.totalSteps } complete.
 
+        <br></br>
         <button onClick={this.onDelete}>Delete Project</button>
 
         <br></br>
         { this.state.user.username }
+
+        <br></br>
+        <button onClick={this.nextStep}>Progress Project to Next Step</button>
 
 
 

@@ -116,3 +116,24 @@ export const softDeleteProject = (req, res) => {
     res.json(project);
   });
 };
+
+
+export const progressProjectToNextStep = (req, res) => {
+  //var currentStep = 0;
+  Project.findOne({ _id: req.params.id }, 'progressStep totalSteps', (err, project) => {
+    //currentStep = project.progressStep;
+    //console.log(currentStep);
+
+    if(project.progressStep < project.totalSteps) {
+      Project.findOneAndUpdate({ _id: req.params.id }, { progressStep: project.progressStep + 1 }, { new: true }, (err, project) => {
+        if (err) res.send(err);
+
+        res.json(project);
+      });
+    } else {
+      res.json("Project already completed.");
+    }
+  });
+
+
+};
