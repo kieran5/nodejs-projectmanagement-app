@@ -34,10 +34,10 @@ class ProjectDetail extends Component {
       .then(project => this.setState({ project },
       () => console.log('Project fetched: ', project)));
 
-    fetch('/currentUser')
+    /*fetch('/currentUser')
       .then(res => res.json())
       .then(user => this.setState({ user },
-      () => console.log('User fetched: ', user)));
+      () => console.log('User fetched: ', user)));*/
   }
 
 

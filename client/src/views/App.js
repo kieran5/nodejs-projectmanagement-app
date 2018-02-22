@@ -38,11 +38,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("fetch");
-    fetch('/currentUser')
+    //console.log("fetch");
+    /*fetch('/currentUser')
       .then(res => res.json())
       .then(user => this.setState({ user },
-      () => console.log('User fetched: ', user)));
+      () => console.log('User fetched: ', user)));*/
 
 
   }

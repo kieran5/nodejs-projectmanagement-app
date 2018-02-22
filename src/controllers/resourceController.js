@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { ResourceSchema } from '../models/resourceModel';
 
-const Resource = mongoose.model('Resource', ResourceSchema);
+export const Resource = mongoose.model('Resource', ResourceSchema);
 
 export const addNewResource = (req, res) => {
   let newResource = new Resource(req.body);

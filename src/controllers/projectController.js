@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { ProjectSchema } from '../models/projectModel';
 import { User } from './userController';
+import { Resource } from './resourceController';
 
 // Creating project variable so Project objects can be created
 // Modelled around the schema we have built
@@ -42,6 +43,14 @@ export const addNewProject = (req, res) => {
     User.findOneAndUpdate({ '_id': req.session.userID || req.body.creator },{ $push: { projects: project._id } }, { safe: true, upsert: true }, (err) => {
       if (err) res.send(err);
     });
+
+    // Update resource availability if the resource has been selected
+    var resources = req.body.resources;
+    for(var i=0; i < resources.length; i++) {
+      Resource.findOneAndUpdate({ '_id': resources[i] }, { availability: false }, { new: true }, (err) => {
+        if (err) res.send(err);
+      });
+    }
 
     res.json(project);
   });
@@ -127,6 +136,16 @@ export const progressProjectToNextStep = (req, res) => {
     if(project.progressStep < project.totalSteps) {
       Project.findOneAndUpdate({ _id: req.params.id }, { progressStep: project.progressStep + 1 }, { new: true }, (err, project) => {
         if (err) res.send(err);
+
+        // If project has been progressed to final step then free up the projects resources
+        if(project.progressStep == project.totalSteps) {
+          var resources = project.resources;
+          for(var i=0; i < resources.length; i++) {
+            Resource.findOneAndUpdate({ '_id': resources[i] }, { availability: true }, (err) => {
+              if (err) res.send(err);
+            });
+          }
+        }
 
         res.json(project);
       });
