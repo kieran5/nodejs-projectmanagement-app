@@ -1,3 +1,4 @@
+// Lynda tutorial helped with basic CRUD: https://www.lynda.com/Node-js-tutorials/Building-RESTful-Web-APIs-Node-js-Express/633869-2.html
 // Server
 var express = require('express');
 var projectRoutes = require('./src/routes/projectRoutes');

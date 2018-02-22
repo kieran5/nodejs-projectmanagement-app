@@ -94,10 +94,4 @@ describe('UserController', function() {
       });
     });
   });
-
-  /*describe('Test session is set after successful login', function() {
-
-  })*/
-
-
 });
