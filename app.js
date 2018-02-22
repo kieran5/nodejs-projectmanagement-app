@@ -46,7 +46,6 @@ app.use(session({
 
 app.get('*', (req, res, next) => {
   res.locals.user = req.session || null;
-  console.log("res.locals.user: " + JSON.stringify(res.locals.user));
   next();
 });
 

@@ -20,7 +20,8 @@ describe('UserController', function() {
       'projects': [],
       'permissions': 'standard',
       'username': 'Test Account',
-      'password': 'myPass'
+      'password': 'myPass',
+      'passwordConf': 'myPass'
     });
 
     newUser.save(function(err) {
@@ -61,7 +62,7 @@ describe('UserController', function() {
           .post('/projects')
           .send({
             'name': 'User Controller Test Project',
-            'creator': '5a7f62c16b490726c440613a',
+            'creator': '5a8ec4659474f55200e55874',
             'startDate': '02-30-2018',
             'endDate': '02-28-2019',
             'contributors': [res.body[0]._id],
@@ -74,8 +75,11 @@ describe('UserController', function() {
               .get('/users')
               .end(function(err, res) {
 
-                var result = res.body[0].projects.toString();
+                // Put last pushed project in to result variable
+                var result = res.body[0].projects[res.body[0].projects.length-1].toString();
+                console.log(result);
                 Project.findOne({ name: 'User Controller Test Project' }, '_id', function(err, project) {
+                  console.log(project);
                   result.should.equal(project._id.toString());
                 });
 
@@ -94,38 +98,6 @@ describe('UserController', function() {
   /*describe('Test session is set after successful login', function() {
 
   })*/
-
-  /*describe('Register user and check password is being hashed (e.g. entered password does not match password from DB)', function() {
-    it('Should return that passwords do not match', function(done) {
-      chai.request(app)
-        .post('/register')
-        .send({
-          'username': 'Test',
-          'password': 'password',
-          'passwordConf': 'password'
-        })
-        .end(function(err, res) {
-          User.findOne({ 'username': 'Test' }, 'password');
-
-          console.log("YEEEEEEEEEEEEEEEEE: " + user);
-
-          user.password.should.not.equal('password');
-
-          User.remove({ 'username': 'Test' }, function(err, user) {
-            if (err) console.log(err);
-          });
-
-          done();
-        })
-    });
-  });
-
-
-User.findOne( {var: var}, function(err, user) {
-
-  var result = bcrypt.compareSync(non hashed, hashed)
-}*/
-
 
 
 });

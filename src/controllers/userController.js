@@ -79,9 +79,6 @@ export const checkUser = (req, res) => {
           // Place user id in to session variable
           req.session.userID = user._id;
 
-          console.log(req.session);
-          console.log(req.session.userID);
-
           return req.session.save();
 
         } else {
@@ -191,9 +188,6 @@ export const adminAccountCheck = (req, res, next) => {
 
 // Return current logged in user from session so front end knows which buttons to display etc.
 export const getCurrentUser = (req, res) => {
-  console.log("func called.");
-  console.log("res.locals.user.username: " + res.locals.user.username);
-  console.log("req.session.userID: " + req.session.userID);
 
   if(req.session.userID) {
 

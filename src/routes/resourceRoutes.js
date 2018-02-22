@@ -6,15 +6,15 @@ import {
 } from '../controllers/resourceController';
 
 const routes = (app) => {
-  app.route('/resource')
+  app.route('/resources')
   .post(addNewResource);
 
 
-  app.route('/resource/:id')
+  app.route('/resources/:id')
   .put(updateResource)
   .delete(deleteResource);
 
-  app.route('/resource/available')
+  app.route('/resources/available')
   .get(getAllAvailableResources);
 };
 

@@ -7,6 +7,9 @@ import {
   Project,
   deleteProject
 } from '../src/controllers/projectController';
+import {
+  Resource
+} from '../src/controllers/resourceController';
 import app from '../app';
 
 chai.use(chaiHttp);
@@ -19,7 +22,7 @@ describe('ProjectController', function() {
   beforeEach(function(done) {
     var newProject = new Project({
       'name': 'Project Controller Test Project',
-      'creator': '5a7f62c16b490726c440613a',
+      'creator': '5a8ec4659474f55200e55874',
       'startDate': '02-30-2018',
       'endDate': '02-28-2019',
       'contributors': [],
@@ -71,7 +74,7 @@ describe('ProjectController', function() {
         .post('/projects')
         .send({
           'name': 'Project Controller Test Project',
-          'creator': '5a7f62c16b490726c440613a',
+          'creator': '5a8ec4659474f55200e55874',
           'startDate': '02-30-2018',
           'endDate': '02-28-2019',
           'contributors': [],
@@ -107,7 +110,52 @@ describe('ProjectController', function() {
     });
   });
 
-  /*describe('Test a resource has been made unavailabe after a new created project has made use of it', function() {
+  describe('Test a resource has been made unavailabe after a new created project has made use of it', function() {
+    it('Should return resource JSON object with availabilty set to false', function(done) {
+      chai.request(app)
+        .get('/resources/available')
+        .end(function(err, res) {
+          chai.request(app)
+            .post('/projects')
+            .send({
+              'name': 'Resource Availabilty Test Project',
+              'creator': '5a8ec4659474f55200e55874',
+              'startDate': '02-30-2018',
+              'endDate': '02-28-2019',
+              'contributors': [],
+              'resources': [res.body[0]._id],
+              'location': 'Sheffield',
+              'totalSteps': '10'
+            })
+            .end(function(err, res) {
+              // Check resource on created project is now set to unavailabe
+              Project.findOne({ name: 'Resource Availabilty Test Project' }, 'resources', function(err, project) {
+
+                var resourceToFind = project.resources.toString();
+                Resource.findOne({ _id: resourceToFind }, 'availability', function(err, resource) {
+                  resource.availability.should.equal(false);
+
+                  // Set resource back to available
+                  Resource.findOneAndUpdate({ _id: project.resources }, { availability: true }, { new: true }, (err) => {
+                    if (err) console.log(err);
+                  });
+
+                });
+              });
+
+              // Remove test project from DB after each time this test has executed
+              Project.remove({ name: 'Resource Availabilty Test Project' }, function(err) {
+                if (err) console.log(err);
+                done();
+              });
+
+
+            })
+        })
+    });
+  });
+
+  /*describe('Test resources on a completed project are set back to available to be used by new projects', function() {
 
   });*/
 

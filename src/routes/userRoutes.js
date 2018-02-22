@@ -13,8 +13,8 @@ import {
 const routes = (app) => {
   app.route('/register')
   .post((req, res, next) => {
-    console.log(`Request from: ${req.originalUrl}`)
-    console.log(`Request type: ${req.method}`)
+    //console.log(`Request from: ${req.originalUrl}`)
+    //console.log(`Request type: ${req.method}`)
 
     next();
   }, createUser)
@@ -35,9 +35,9 @@ const routes = (app) => {
   /*** Get the logged in user from session if there is one ***/
   app.route('/currentUser')
   .get((req, res, next) => {
-    console.log(`Request from: ${req.originalUrl}`)
-    console.log(`Request type: ${req.method}`)
-    console.log("yenah: " + req.session.userID);
+    //console.log(`Request from: ${req.originalUrl}`)
+    //console.log(`Request type: ${req.method}`)
+    //console.log("yenah: " + req.session.userID);
 
     next();
   }, getCurrentUser)
