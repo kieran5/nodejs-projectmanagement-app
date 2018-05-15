@@ -28,7 +28,7 @@ const routes = (app) => {
   }, getAllProjects)
 
   /*** Save a project ***/
-  .post(loginRequired, addNewProject);
+  .post(addNewProject);
 
   /*** Get single project by ID ***/
   app.route('/projects/:id')
