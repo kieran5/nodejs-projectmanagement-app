@@ -16,7 +16,7 @@ class AddProject extends Component {
       .then(res => res.json())
       .then(contributors => this.setState({ contributors }));
 
-    fetch('/resource/available')
+    fetch('/resources/available')
       .then(res => res.json())
       .then(resources => this.setState({ resources }));
   }

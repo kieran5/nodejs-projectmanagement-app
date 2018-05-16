@@ -1,0 +1,19 @@
+.list-wrapper {
+  padding: 30px 200px 0 200px;
+}
+
+h2.list-title {
+  text-align: center;
+}
+
+.alignLeft {
+  float: left;
+}
+
+.alignRight {
+  float: right;
+}
+
+.removeListStyle {
+  list-style: none;
+}
