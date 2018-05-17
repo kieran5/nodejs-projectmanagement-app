@@ -34,8 +34,6 @@ class Projects extends Component {
         project.creator = this.state.users[i].username;
       }
     }
-
-    return
   }
 
 

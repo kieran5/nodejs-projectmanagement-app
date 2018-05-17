@@ -78,6 +78,7 @@ export const checkUser = (req, res) => {
 
           // Place user id in to session variable
           req.session.userID = user._id;
+          req.session.username = user.username;
 
           return req.session.save();
 
@@ -93,6 +94,10 @@ export const checkUser = (req, res) => {
 
 // Function to log out and destroy the current user session
 export const logoutUser = (req, res) => {
+
+
+  //window.location.replace(document.referrer);
+
   // If a user session exists
   if(req.session.userID) {
     console.log("Session exists.");

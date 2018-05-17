@@ -17,7 +17,7 @@ export const addNewProject = (req, res) => {
   // Before posting/saving to our Mongo database
   let newProject = new Project({
     name: req.body.name,
-    creator: req.session.userID || req.body.creator,
+    creator: req.session.username || req.body.creator,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
     contributors: req.body.contributors,
@@ -32,27 +32,28 @@ export const addNewProject = (req, res) => {
     if (err) res.send(err);
 
     // Update chosen contributors project arrays so users current projects stay updated
-    var contributors = req.body.contributors;
+    /*var contributors = req.body.contributors;
     for(var i=0; i < contributors.length; i++) {
       User.findOneAndUpdate({ '_id': contributors[i] },{ $push: { projects: project._id } }, { safe: true, upsert: true }, (err) => {
         if (err) res.send(err);
       });
-    }
+    }*/
 
     // Update creators project list as well
-    User.findOneAndUpdate({ '_id': req.session.userID || req.body.creator },{ $push: { projects: project._id } }, { safe: true, upsert: true }, (err) => {
+    /*User.findOneAndUpdate({ '_id': req.session.userID || req.body.creator },{ $push: { projects: project._id } }, { safe: true, upsert: true }, (err) => {
       if (err) res.send(err);
-    });
+    });*/
 
     // Update resource availability if the resource has been selected
-    var resources = req.body.resources;
+    /*var resources = req.body.resources;
     for(var i=0; i < resources.length; i++) {
       Resource.findOneAndUpdate({ '_id': resources[i] }, { availability: false }, { new: true }, (err) => {
         if (err) res.send(err);
       });
-    }
+    }*/
 
-    res.json(project);
+    //res.json(project);
+    res.redirect('/');
   });
 };
 

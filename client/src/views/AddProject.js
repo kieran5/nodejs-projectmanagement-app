@@ -56,6 +56,7 @@ class AddProject extends Component {
           <label id="lblName">Total Steps in Project</label>
           <input type="number" name="totalSteps" id="totalSteps" class="form-control" />
 
+          <input type="hidden" name="creator" id="creator" value={sessionStorage.getItem("userData")} />
 
           <input type="submit" value="Add" class="form-control"></input>
         </form>

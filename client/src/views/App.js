@@ -13,19 +13,62 @@ import {
   NavLink
 } from 'react-router-dom';
 
+import { GoogleLogin } from 'react-google-login';
+import { PostData } from '../PostData';
+import { Redirect } from 'react-router-dom'
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.handleLoginClick = this.handleLoginClick.bind(this);
-    this.handleLogoutClick = this.handleLogoutClick.bind(this);
 
     this.state = {
+      redirectToReferrer: false,
       user: {},
       isLoggedIn: false,
       searchQuery: "",
       searchResults: []
     }
+
+    this.signup = this.signup.bind(this);
+
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+
+
   }
+
+  signup(res, type) {
+    let postData;
+
+    if(type === 'google' && res.w3.U3) {
+      postData = { name: res.w3.ig, provider: type, email: res.w3.U3, provider_id: res.El, token: res.Zi.access_token, provider_pic: res.w3.Paa };
+    }
+
+    /*PostData('signup', postData).then((result) => {
+      let responseJson = result;
+      console.log("YEEEEEEEEEEEE" + JSON.stringify(responseJson));
+      if(responseJson.userData) {
+        console.log("IN BABY");
+        sessionStorage.setItem('userData', JSON.stringify(responseJson));
+        this.setState({ redirectToReferrer: true });
+        this.setState({ isLoggedIn: true });
+        console.log("TING" + this.state.isLoggedIn);
+      } else {
+        console.log("NOT IN BABY");
+      }
+    });*/
+
+    //sessionStorage.setItem('userData', JSON.stringify(postData));
+    sessionStorage.setItem('userData', res.w3.ig);
+    this.setState({ redirectToReferrer: true });
+    this.setState({ isLoggedIn: true });
+
+  }
+
+  logUserOut = () => {
+    sessionStorage.clear();
+    window.location.reload();
+  };
 
   change = (e) => {
     this.setState({
@@ -45,6 +88,11 @@ class App extends Component {
       () => console.log('User fetched: ', user)));*/
 
 
+    if(sessionStorage.getItem('userData')) {
+      //let uData = JSON.parse(sessionStorage.getItem('userData'));
+      //console.log(uData);
+      this.setState({ isLoggedIn: true });
+    }
   }
 
   handleLoginClick() {
@@ -56,7 +104,19 @@ class App extends Component {
   }
 
   render() {
-    const isLoggedIn = this.state.isLoggedIn;
+
+    const responseGoogle = (response) => {
+      console.log(response);
+      this.signup(response, 'google');
+    }
+
+
+
+    var isLoggedIn = this.state.isLoggedIn;
+
+    if(isLoggedIn) {
+      //console.log(uData);
+    }
     //const isLoggedIn = true;
     //alert(sessionStorage.getItem('username'));
     //alert(this.props);
@@ -69,25 +129,35 @@ class App extends Component {
     //console.log(sessionStorage);
 
 
-    let linkToRender = null;
+    var linkToRender = null;
+    console.log("LOGGGGGGG" + isLoggedIn);
     if(isLoggedIn) {
       linkToRender =
       (
         <li className="nav-item">
-          <NavLink to="/logout" activeClassName="activeNav" className="nav-link">Logout</NavLink>
+          <NavLink to="/" onClick={this.logUserOut} className="nav-link">Logout</NavLink>
         </li>
       )
     } else {
       linkToRender =
       (
-        <div>
+        <div class="loginButtonsDiv">
           <li className="nav-item">
             <NavLink to="/login" activeClassName="activeNav" className="nav-link">Login</NavLink>
           </li>
           <li className="nav-item">
             <NavLink to="/register" activeClassName="activeNav" className="nav-link">Register</NavLink>
           </li>
+          <li>
+            <GoogleLogin
+              clientId="451372330555-5opbgvdri5im7kfi1jvvsm4emaapi3b8.apps.googleusercontent.com"
+              buttonText="Google Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+            />
+          </li>
         </div>
+
       )
     }
 
